@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.js"></script>
+    <script src="/static/js/marked.min.js"></script>
+    <script src="/static/js/jquery.form.min.js"></script>
+    <title>STDH-NLP</title>
+    <style>
+        html,body {
+            height: 100%;
+        }
+        h1 {
+            text-align: left;
+            height: 10%;
+            display: inline-block;
+        }
+        .nav-tabs {
+            border-bottom: 0
+        }
+        #articleSegmentation {
+            margin-top: 100px
+        }
+        textarea {
+            width: 100%;
+            height: 100%;
+        }
+        a {
+            cursor: pointer;
+        }
+        #markdownImg {
+            display: none;
+            width: 10%;
+            margin-left: 45%;
+            margin-top: 20%;
+        }
+        #articlemarkdownImg {
+            display: none;
+            width: 10%;
+            margin-left: 45%;
+            margin-top: 20%;
+        }
+    </style>
+</head>
+
+<body style="padding: 10px;">
+    <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#">中文分词和自然语言处理实训系统</a>
+    </div>
+    <div>
+        <ul class="nav navbar-nav navbar-right">
+            <li id="urlBtn" role="presentation" class="active"><a>新闻网页</a></li>
+            <li id="articleBtn" role="presentation"><a>手动输入</a></li>
+        </ul>
+    </div>
+    </div>
+</nav>
+        <p style="height:10%;float: left;"></p>
+        <ul class="nav nav-pills" style="height:10%;float: right;">
+
+        </ul>
+
+    <div id="urlPage" class="container-fluid" style="height:80%">
+        <div class="row" style="height:12%">
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" style="height:100%">
+                <form id="selectPro" method="post" action="http://127.0.0.1:9527/posts" class="form-inline" style="text-align:  left;" onsubmit="return savePro();">
+                    <input type="input" class="form-control" id="serachUrl" placeholder="输入地址链接" style="width:30%" name="news_url">
+                    <button disabled="disabled" type="button" class="btn btn-default" id="button">浏览</button>
+                    <button disabled="disabled" type="buttom" class="btn btn-default" id="Segmentation" onsubmit="return savePro();">分词处理</button>
+                </form>
+            </div>
+        </div>
+        <div class="row" style="height:80%">
+            <div class="col-md-7 col-sm-7 col-lg-7 col-xs-7" style="height:100%">
+                <iframe id="frameTest" src="" style="height:100%;width: 100%"></iframe>
+            </div>
+            <div id="markdown" class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;border:  1px solid #ccc;overflow-y:  auto;">
+                <img src="/static/img/20130527034919654.gif" id="markdownImg">
+            </div>
+        </div>
+    </div>
+<div id="articlePage" class="container-fluid" style="height:90%;display: none">
+<div class="row" style="height:85%">
+    <div class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;padding: 0;">
+        <form id="selectProText" method="post" action="http://127.0.0.1:9527/posts" class="form-inline" style="text-align:  center;height: 100%;width: 100%；" onsubmit="return savePro();">
+        <textarea id="textArea" cols="" rows="" placeholder="输入文章内容" name="news_text" ></textarea>
+        </form>
+    </div>
+    <button disabled="disabled" id="articleSegmentation" type="button" class="col-md-2 col-sm-2 col-lg-2 col-xs-2 btn btn-default" >分词处理</button>
+    <div id="articlemarkdown" class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;border:  1px solid #ccc;overflow-y:  auto;">
+        <img src="/static/img/20130527034919654.gif" id="articlemarkdownImg">
+    </div>
+</div>
+</div>
+</body>
+
+</html>
+<script>
+    $(function () {
+
+        function changeDisplay(){
+            var serachUrl = $("#serachUrl").val();
+                    if(serachUrl == ''){
+                        $("#button").attr('disabled',true);
+                        $("#Segmentation").attr('disabled',true);
+                    }
+                    if(serachUrl != ''){
+                        $("#button").attr('disabled',false);
+                        $("#Segmentation").attr('disabled',false);
+                    }
+        }
+function changeDisplay2(){
+            var textArea = $("#textArea").val();
+                    if(textArea == ''){
+                        $("#articleSegmentation").attr('disabled',true);
+                    }
+                    if(textArea != ''){
+                        $("#articleSegmentation").attr('disabled',false);
+                    }
+        }
+
+document.getElementById("serachUrl").addEventListener("change", function(event) {
+        changeDisplay();
+});
+document.getElementById("textArea").addEventListener("change", function(event) {
+        changeDisplay2();
+});
+
+        function saveRro() {
+            $("#selectPro").ajaxSubmit(function(message) {
+            // 对表单进行提交后进行的操作，相当于ajax提交表单的success
+            $("#markdown").html(marked(message));
+            });
+            return false; // 返回false，阻止跳转
+
+            $("#Segmentation").ajaxSubmit(function(message) {
+            // 对表单进行提交后进行的操作，相当于ajax提交表单的success
+            $("#markdown").html(marked(message));
+            });
+            return false; // 返回false，阻止跳转
+        }
+        $("#Segmentation").click(function(){
+            $("#markdownImg").show();
+            $("#selectPro").ajaxSubmit(function(message) {
+            // 对表单进行提交后进行的操作，相当于ajax提交表单的success
+            $("#markdown").html(marked(message));
+            });
+            return false; // 返回false，阻止跳转
+        })
+        $("#articleSegmentation").click(function(){
+            $("#articlemarkdownImg").show();
+            $("#selectProText").ajaxSubmit(function(message) {
+            // 对表单进行提交后进行的操作，相当于ajax提交表单的success
+            $("#articlemarkdown").html(marked(message));
+            });
+            return false; // 返回false，阻止跳转
+        })
+
+
+        $('#urlBtn').click(function () {
+            $("#urlBtn").addClass('active');
+            $("#articleBtn").removeClass('active');
+            $('#urlPage').show();
+            $("#articlePage").hide();
+        })
+        $('#articleBtn').click(function () {
+            $("#articleBtn").addClass('active');
+            $("#urlBtn").removeClass('active');
+            $('#articlePage').show();
+            $("#urlPage").hide();
+        })
+        $('#button').click(function () {
+            var serachUrl = $('#serachUrl').val();
+            //http://www.baidu.com
+            document.getElementById("frameTest").src = serachUrl;
+        });
+        // $("#markdown").html(marked("## step3：数据预处理（工时占比15%）\n3. 编写提取 `job_info` 字段并使用结巴进行分词的函数\n### 步骤\n1. 编写从redis取数据的函数\n2. 编写正则表达式文本处理函数"));
+
+        //http://192.168.3.8:9527/posts    $("#content").html(marked(response));
+
+        // $.get("URL",function(result){
+        //     console.log(result);
+        // });
+
+        // $.get("http://127.0.0.1:9527/posts?news_url=https://news.163.com/18/1210/08/E2LB18QE0001875O.html",function(result){
+        //      $("#markdown").html(marked(result));
+        // });
+        // $.getScript('http://192.168.3.8:9527/posts?news_url=http://www.baidu.com&callback=foo');
+
+        // function foo(data) {
+        //     console.log(data);
+        // }
+        // $.ajax({
+        //     type:'get',
+        //     url:'http://192.168.3.8:9527/posts',
+        //     dataType:'jsonp',
+        //     jsonp: "jsonpCallback",
+        //     success:function(result){
+        //         console.log(result);
+        //     }
+        // })
+
+    });
+</script>
