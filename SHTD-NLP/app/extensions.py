@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # 导入类库
 from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy

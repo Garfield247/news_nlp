@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" />
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.js"></script>
-    <script src="/static/js/marked.min.js"></script>
-    <script src="/static/js/jquery.form.min.js"></script>
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css" />
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/marked.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/jquery.form.min.js') }}"></script>
     <title>STDH-NLP</title>
     <style>
         html,body {
@@ -70,7 +70,7 @@
     <div id="urlPage" class="container-fluid" style="height:80%">
         <div class="row" style="height:12%">
             <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12" style="height:100%">
-                <form id="selectPro" method="post" action="http://127.0.0.1:9527/posts" class="form-inline" style="text-align:  left;" onsubmit="return savePro();">
+                <form id="selectPro" method="post" action="{{ url_for( 'main.create_posts' ) }}" class="form-inline" style="text-align:  left;" onsubmit="return savePro();">
                     <input type="input" class="form-control" id="serachUrl" placeholder="输入地址链接" style="width:30%" name="news_url">
                     <button disabled="disabled" type="button" class="btn btn-default" id="button">浏览</button>
                     <button disabled="disabled" type="buttom" class="btn btn-default" id="Segmentation" onsubmit="return savePro();">分词处理</button>
@@ -82,20 +82,19 @@
                 <iframe id="frameTest" src="" style="height:100%;width: 100%"></iframe>
             </div>
             <div id="markdown" class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;border:  1px solid #ccc;overflow-y:  auto;">
-                <img src="/static/img/20130527034919654.gif" id="markdownImg">
+                <img src="{{ url_for('static',filename='img/20130527034919654.gif') }}" id="markdownImg">
             </div>
         </div>
     </div>
 <div id="articlePage" class="container-fluid" style="height:90%;display: none">
 <div class="row" style="height:85%">
     <div class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;padding: 0;">
-        <form id="selectProText" method="post" action="http://127.0.0.1:9527/posts" class="form-inline" style="text-align:  center;height: 100%;width: 100%；" onsubmit="return savePro();">
+        <form id="selectProText" method="post" action="{{ url_for( 'main.create_posts' ) }}" class="form-inline" style="text-align:  center;height: 100%;width: 100%；" onsubmit="return savePro();">
         <textarea id="textArea" cols="" rows="" placeholder="输入文章内容" name="news_text" ></textarea>
         </form>
     </div>
     <button disabled="disabled" id="articleSegmentation" type="button" class="col-md-2 col-sm-2 col-lg-2 col-xs-2 btn btn-default" >分词处理</button>
-    <div id="articlemarkdown" class="col-md-5 col-sm-5 col-lg-5 col-xs-5" style="height:100%;border:  1px solid #ccc;overflow-y:  auto;">
-        <img src="/static/img/20130527034919654.gif" id="articlemarkdownImg">
+    <div id="articlemarkdown" class="col-md-5 colimg/20130527034919654.gif') }}" id="articlemarkdownImg">
     </div>
 </div>
 </div>

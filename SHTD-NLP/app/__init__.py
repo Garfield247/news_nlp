@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from flask import Flask, render_template
 from app.config import config
 from app.extensions import config_extensions
